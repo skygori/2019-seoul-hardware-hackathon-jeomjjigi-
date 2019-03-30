@@ -12,12 +12,23 @@
 #include "MQTTClient.h"
 #include "MQTT_server_setting.h"
 
+#include "ShiftOut.h"
+
 
 #define MQTT_MAX_CONNECTIONS    5
 #define MQTT_MAX_PACKET_SIZE    1024
 
 #define USE_WIFI        1
 
+//ShiftOut reg(PA_8, PA_9, PC_7, PB_6, D1);
+ShiftOut reg1(PD_9, PA_9, PC_7, PB_6, D1);
+ShiftOut reg2(PD_8, PA_9, PC_7, PB_6, D1);
+ShiftOut reg3(PA_10, PA_9, PC_7, PB_6, D1);
+ShiftOut reg4(PA_11, PA_9, PC_7, PB_6, D1);
+ShiftOut reg5(PA_12, PA_9, PC_7, PB_6, D1);
+ShiftOut reg6(PB_8, PA_9, PC_7, PB_6, D1);
+ShiftOut reg7(PD_11, PA_9, PC_7, PB_6, D1);
+ShiftOut reg8(PD_12, PA_9, PC_7, PB_6, D1);
 
 DigitalOut led1(LED1);
 InterruptIn btn1(BUTTON1, PullUp);      // Must setting the Pullup option
@@ -145,6 +156,15 @@ void btn_handler()
 int main()
 {
     int ret;
+    int Rtxt;
+    char RXT1[8]={0,1,0,0,1,1,0,0};
+    char RXT2[8]={0,1,1,0,0,1,0,0};
+    char RXT3[8]={0,0,1,1,0,1,0,0};
+    char RXT4[8]={0,1,0,0,0,1,0,0};
+    char RXT5[8]={0,0,0,1,1,1,0,0};
+    char RXT6[8]={1,0,1,0,0,1,0,0};
+    char RXT7[8]={1,1,1,0,0,1,0,0};
+    char RXT8[8]={0,1,1,0,0,1,0,0};
     //mbed_trace_init();
 
     printf("WiFi example\n");
@@ -246,5 +266,24 @@ int main()
             printf("failed mqtt yield\r\n");
             //return -1;
         }
+ /*       
+        for (int i = 0; i < 8; i++)  {
+            RXT1[i] = 0x01;
+            RXT2[i] = 0x01;
+            //wait(2);
+        }
+ */       
+        //wait(2);
+        //reg1.writeByte(Rtxt);
+        //reg2.writeByte(Rtxt);
+        reg1.writeArray(RXT1);
+        reg2.writeArray(RXT2);
+        reg3.writeArray(RXT3);
+        reg4.writeArray(RXT4);
+        reg5.writeArray(RXT5);
+        reg6.writeArray(RXT6);
+        reg7.writeArray(RXT7);
+        reg8.writeArray(RXT8);
+        wait(20);
     }
 }
